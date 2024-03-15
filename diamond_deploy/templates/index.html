@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond Price Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #7D7E71;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #283747;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: white;
+        }
+
+        input[type="number"] {
+            width: 96%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 26px;
+        }
+
+        button:hover {
+            background-color: #717E7D ;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Diamond Price Prediction</h1>
+    <form id="prediction-form">
+        <label for="carat">Carat:</label>
+        <input type="number" step="0.01" id="carat" name="carat" required>
+
+        <label for="cut">Cut:</label>
+        <select id="cut" name="cut" required>
+            <option value="Fair">Fair</option>
+            <option value="Good">Good</option>
+            <option value="Very Good">Very Good</option>
+            <option value="Premium">Premium</option>
+            <option value="Ideal">Ideal</option>
+        </select>
+
+        <label for="color">Color:</label>
+        <select id="color" name="color" required>
+            <option value="J">J</option>
+            <option value="I">I</option>
+            <option value="H">H</option>
+            <option value="G">G</option>
+            <option value="F">F</option>
+            <option value="E">E</option>
+            <option value="D">D</option>
+        </select>
+
+        <label for="clarity">Clarity:</label>
+        <select id="clarity" name="clarity" required>
+            <option value="I1">I1</option>
+            <option value="SI2">SI2</option>
+            <option value="SI1">SI1</option>
+            <option value="VS2">VS2</option>
+            <option value="VS1">VS1</option>
+            <option value="VVS2">VVS2</option>
+            <option value="VVS1">VVS1</option>
+            <option value="IF">IF</option>
+        </select>
+
+        <label for="depth">Depth:</label>
+        <input type="number" step="0.01" id="depth" name="depth" required>
+
+        <label for="table">Table:</label>
+        <input type="number" step="0.01" id="table" name="table" required>
+
+        <label for="x">x:</label>
+        <input type="number" step="0.01" id="x" name="x" required>
+
+        <label for="y">y:</label>
+        <input type="number" step="0.01" id="y" name="y" required>
+
+        <label for="z">z:</label>
+        <input type="number" step="0.01" id="z" name="z" required>
+
+        <button type="button" onclick="predictPrice()">Predict Price</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        function predictPrice() {
+            const formData = {
+                'carat': document.getElementById('carat').value,
+                'cut': document.getElementById('cut').value,
+                'color': document.getElementById('color').value,
+                'clarity': document.getElementById('clarity').value,
+                'depth': document.getElementById('depth').value,
+                'table': document.getElementById('table').value,
+                'x': document.getElementById('x').value,
+                'y': document.getElementById('y').value,
+                'z': document.getElementById('z').value
+            };
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = "<h2>Predicted Price: " + data.predicted_price + "</h2>";
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
